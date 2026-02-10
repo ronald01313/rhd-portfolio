@@ -19,8 +19,14 @@ export const portfolioData = {
     { name: "Ruby on Rails", category: "Backend" },
     { name: "MongoDB", category: "Database" },
     { name: "Supabase", category: "Database" },
+    { name: "MySQL", category: "Database" },
+    { name: "PostgreSQL", category: "Database" },
     { name: "n8n", category: "RPA" },
+    { name: "UIPath", category: "RPA" },
     { name: "RAX Editor", category: "RPA" },
+    { name: "Cybersecurity", category: "Cybersecurity" },
+    { name: "Penetration Testing", category: "Cybersecurity" },
+    { name: "Ethical Hacking", category: "Cybersecurity" },
   ],
   projects: [
     {
@@ -41,7 +47,13 @@ export const portfolioData = {
       link: "#",
       tags: ["React", "Ruby on Rails"],
     },
-    /* 
+    {
+      title: "SQL Exporter Updates",
+      description: "A repository for hosting public update files for the SQL Exporter desktop application, enabling automatic updates for users.",
+      link: "https://ronald01313.github.io/sql-exporter-updates/",
+      tags: ["Python", "Desktop App", "Updates"],
+    },
+    /*
     TEMPLATE FOR FUTURE PROJECTS:
     {
       title: "Project Title",
@@ -63,6 +75,14 @@ export const portfolioData = {
       company: "Self-employed",
       period: "Past",
       description: "Enhanced a medical healthcare web application using ReactJS and Ruby on Rails.",
+    },
+  ],
+  certifications: [
+    {
+      title: "Cybersecurity Fundamentals",
+      issuer: "IBM Skillbuild",
+      date: "2021",
+      link: "https://www.credly.com/badges/8b419812-c544-41f0-bec5-cf0a2fcee957/public_url",
     },
   ],
 };

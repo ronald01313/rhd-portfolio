@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, ExternalLink, Download, Code2, Cpu, Database, Globe } from "lucide-react";
+import { Github, Linkedin, Mail, ExternalLink, Download, Code2, Cpu, Database, Globe, Shield, Award } from "lucide-react";
 import type { Route } from "./+types/home";
 import { portfolioData } from "../data";
 
@@ -123,12 +123,13 @@ export default function Home() {
             variants={containerVariants}
           >
             <h2 className="text-3xl font-bold mb-12 text-center">Technical Expertise</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
               {[
                 { title: "Frontend", icon: <Globe />, skills: portfolioData.skills.filter(s => s.category === "Frontend") },
                 { title: "Backend", icon: <Code2 />, skills: portfolioData.skills.filter(s => s.category === "Backend") },
                 { title: "Database", icon: <Database />, skills: portfolioData.skills.filter(s => s.category === "Database") },
                 { title: "RPA", icon: <Cpu />, skills: portfolioData.skills.filter(s => s.category === "RPA") },
+                { title: "Cybersecurity", icon: <Shield />, skills: portfolioData.skills.filter(s => s.category === "Cybersecurity") },
               ].map((category, idx) => (
                 <motion.div 
                   key={idx} 
@@ -183,6 +184,45 @@ export default function Home() {
                         #{tag}
                       </span>
                     ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Certifications Section */}
+      <section className="py-20 px-6 bg-gray-50 dark:bg-gray-900/50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-12 text-center">Certifications</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {portfolioData.certifications?.map((cert, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-md transition-all border border-transparent hover:border-blue-500/50"
+              >
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl">
+                    <Award size={24} />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg mb-1">{cert.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-2">{cert.issuer} • {cert.date}</p>
+                    {cert.link && (
+                      <a 
+                        href={cert.link} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                      >
+                        View Certificate <ExternalLink size={14} />
+                      </a>
+                    )}
                   </div>
                 </div>
               </motion.div>
