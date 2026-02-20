@@ -5,12 +5,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { GA_MEASUREMENT_ID, trackPageView } from "./utils/analytics";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -27,7 +29,9 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const location = useLocation();
 
+  // Initialize theme
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     if (savedTheme) {
@@ -37,6 +41,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  // Update theme on state change
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -45,6 +50,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
     }
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+  // Track page views on route changes
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
@@ -57,6 +67,26 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        
+        {/* Google Analytics Tag */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}', {
+                page_path: window.location.pathname,
+              });
+            `,
+          }}
+        />
+        
+        {/* Note: Vercel Analytics can also be integrated here for deeper insights */}
       </head>
       <body className="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
         <button

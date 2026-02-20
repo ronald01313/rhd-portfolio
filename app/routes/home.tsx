@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, ExternalLink, Download, Code2, Cpu, Database, Globe, Shield, Award } from "lucide-react";
 import type { Route } from "./+types/home";
 import { portfolioData } from "../data";
+import { trackExternalLinkClick } from "../utils/analytics";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -95,17 +96,34 @@ export default function Home() {
               className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium transition-all transform hover:scale-105"
               target="_blank"
               rel="noreferrer"
+              onClick={() => trackExternalLinkClick("Resume Download", portfolioData.resumeUrl)}
             >
               <Download size={18} /> Download CV
             </a>
             <div className="flex items-center gap-4 ml-2">
-              <a href={portfolioData.github} className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-blue-600 transition-colors">
+              <a 
+                href={portfolioData.github} 
+                className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-blue-600 transition-colors"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackExternalLinkClick("GitHub Main", portfolioData.github)}
+              >
                 <Github size={20} />
               </a>
-              <a href={portfolioData.linkedin} className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-blue-600 transition-colors">
+              <a 
+                href={portfolioData.linkedin} 
+                className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-blue-600 transition-colors"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackExternalLinkClick("LinkedIn Main", portfolioData.linkedin)}
+              >
                 <Linkedin size={20} />
               </a>
-              <a href={`mailto:${portfolioData.email}`} className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-blue-600 transition-colors">
+              <a 
+                href={`mailto:${portfolioData.email}`} 
+                className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full hover:text-blue-600 transition-colors"
+                onClick={() => trackExternalLinkClick("Email Main", portfolioData.email)}
+              >
                 <Mail size={20} />
               </a>
             </div>
@@ -171,7 +189,13 @@ export default function Home() {
                 <div className="p-8">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-2xl font-bold group-hover:text-blue-600 transition-colors">{project.title}</h3>
-                    <a href={project.link} className="p-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-all">
+                    <a 
+                      href={project.link} 
+                      className="p-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-blue-600 hover:text-white transition-all"
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={() => trackExternalLinkClick(`Project: ${project.title}`, project.link)}
+                    >
                       <ExternalLink size={18} />
                     </a>
                   </div>
@@ -219,6 +243,7 @@ export default function Home() {
                         target="_blank" 
                         rel="noreferrer"
                         className="inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                        onClick={() => trackExternalLinkClick(`Cert: ${cert.title}`, cert.link)}
                       >
                         View Certificate <ExternalLink size={14} />
                       </a>
@@ -247,14 +272,27 @@ export default function Home() {
               <a 
                 href={`mailto:${portfolioData.email}`} 
                 className="w-full md:w-auto px-8 py-4 bg-white text-blue-600 rounded-full font-bold text-lg hover:shadow-xl transition-shadow"
+                onClick={() => trackExternalLinkClick("Contact Email", portfolioData.email)}
               >
                 Send an Email
               </a>
               <div className="flex gap-4">
-                 <a href={portfolioData.github} className="p-4 bg-blue-500/30 rounded-full hover:bg-blue-500/50 transition-colors">
+                 <a 
+                    href={portfolioData.github} 
+                    className="p-4 bg-blue-500/30 rounded-full hover:bg-blue-500/50 transition-colors"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackExternalLinkClick("Contact GitHub", portfolioData.github)}
+                  >
                    <Github size={24} />
                  </a>
-                 <a href={portfolioData.linkedin} className="p-4 bg-blue-500/30 rounded-full hover:bg-blue-500/50 transition-colors">
+                 <a 
+                    href={portfolioData.linkedin} 
+                    className="p-4 bg-blue-500/30 rounded-full hover:bg-blue-500/50 transition-colors"
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => trackExternalLinkClick("Contact LinkedIn", portfolioData.linkedin)}
+                  >
                    <Linkedin size={24} />
                  </a>
               </div>
