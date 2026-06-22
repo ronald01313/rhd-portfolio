@@ -66,7 +66,7 @@ export const portfolioData = {
   experience: [
     {
       role: "Junior RPA Developer",
-      company: "wilcon Depot Inc.", // Replace with your actual company
+      company: "Wilcon Depot Inc.", // Replace with your actual company
       period: "Present",
       description: "Focusing on automating workflows across various departments to enhance operational efficiency and reduce manual tasks.",
     },
@@ -79,10 +79,17 @@ export const portfolioData = {
   ],
   certifications: [
     {
+      title: "Web Attack Surface 101",
+      issuer: "Blackstride Cyber",
+      date: "June 05, 2026",
+      link: "https://credsverse.com/credentials/91759780-2635-485a-b71e-949e181af1a5?preview=1",
+    },
+    {
       title: "Cybersecurity Fundamentals",
       issuer: "IBM Skillbuild",
       date: "2021",
       link: "https://www.credly.com/badges/8b419812-c544-41f0-bec5-cf0a2fcee957/public_url",
     },
+     
   ],
 };

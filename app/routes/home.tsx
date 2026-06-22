@@ -1,8 +1,12 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, ExternalLink, Download, Code2, Cpu, Database, Globe, Shield, Award } from "lucide-react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import type { Route } from "./+types/home";
 import { portfolioData } from "../data";
 import { trackExternalLinkClick } from "../utils/analytics";
+
+const HeroScene = lazy(() => import("../components/HeroScene"));
+const TechGlobe = lazy(() => import("../components/TechGlobe"));
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -30,13 +34,40 @@ const itemVariants = {
 };
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const currentScroll = window.pageYOffset;
+      setScrollProgress((currentScroll / totalScroll) * 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <main className="min-h-screen">
+      {/* Scroll Progress Bar */}
+      <div 
+        className="fixed top-0 left-0 h-1 bg-blue-600 z-[100] transition-all duration-300" 
+        style={{ width: `${scrollProgress}%` }}
+      />
+      
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center px-6 overflow-hidden">
         <div className="absolute inset-0 z-0">
-           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
-           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+           {mounted && (
+             <Suspense fallback={<div className="w-full h-full bg-slate-900/5" />}>
+               <HeroScene />
+             </Suspense>
+           )}
+           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-pulse" />
+           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse delay-1000" />
         </div>
         
         <motion.div 
@@ -141,6 +172,31 @@ export default function Home() {
             variants={containerVariants}
           >
             <h2 className="text-3xl font-bold mb-12 text-center">Technical Expertise</h2>
+            
+            <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
+              <div className="w-full lg:w-1/2">
+                {mounted && (
+                  <Suspense fallback={<div className="h-[300px] w-full bg-blue-50/50 dark:bg-blue-900/10 rounded-3xl animate-pulse" />}>
+                    <TechGlobe />
+                  </Suspense>
+                )}
+              </div>
+              <div className="w-full lg:w-1/2">
+                <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                  Over the years, I've developed a diverse skill set across the entire development stack. 
+                  From building responsive frontends to architecting robust backends and automating complex workflows.
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  {["Frontend", "Backend", "Database", "RPA", "Cybersecurity"].map((cat) => (
+                    <div key={cat} className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
+                      <span className="font-medium">{cat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
               {[
                 { title: "Frontend", icon: <Globe />, skills: portfolioData.skills.filter(s => s.category === "Frontend") },
@@ -182,9 +238,10 @@ export default function Home() {
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -12, scale: 1.02 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-blue-500 transition-colors"
+                transition={{ duration: 0.3 }}
+                className="group relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-blue-500 shadow-sm hover:shadow-xl transition-all"
               >
                 <div className="p-8">
                   <div className="flex justify-between items-start mb-4">
