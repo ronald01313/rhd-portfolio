@@ -6,7 +6,6 @@ import { portfolioData } from "../data";
 import { trackExternalLinkClick } from "../utils/analytics";
 
 const HeroScene = lazy(() => import("../components/HeroScene"));
-const TechGlobe = lazy(() => import("../components/TechGlobe"));
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -175,17 +174,22 @@ export default function Home() {
             
             <div className="flex flex-col lg:flex-row items-center gap-12 mb-16">
               <div className="w-full lg:w-1/2">
-                {mounted && (
-                  <Suspense fallback={<div className="h-[300px] w-full bg-blue-50/50 dark:bg-blue-900/10 rounded-3xl animate-pulse" />}>
-                    <TechGlobe />
-                  </Suspense>
-                )}
+                <div className="relative rounded-3xl overflow-hidden border border-blue-500/20 shadow-lg">
+                  <img
+                    src="https://static.vecteezy.com/system/resources/thumbnails/023/168/671/small/technology-abstract-electronic-circuit-circle-glowing-gradient-color-point-of-light-at-the-end-of-the-line-the-space-is-rounded-in-the-middle-to-put-letters-blue-gradient-background-vector.jpg"
+                    alt="Technology background"
+                    className="w-full h-[380px] object-cover"
+                    loading="lazy"
+                  />
+                </div>
               </div>
+
               <div className="w-full lg:w-1/2">
                 <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-                  Over the years, I've developed a diverse skill set across the entire development stack. 
+                  Over the years, I've developed a diverse skill set across the entire development stack.
                   From building responsive frontends to architecting robust backends and automating complex workflows.
                 </p>
+
                 <div className="grid grid-cols-2 gap-4">
                   {["Frontend", "Backend", "Database", "RPA", "Cybersecurity"].map((cat) => (
                     <div key={cat} className="flex items-center gap-2">

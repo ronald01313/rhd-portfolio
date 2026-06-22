@@ -39,18 +39,18 @@ function Cloud({ count = 4, radius = 4 }) {
     return temp;
   }, [count, radius]);
 
-  const groupRef = useRef<THREE.Group>(null!);
-  useFrame((state) => {
-    groupRef.current.rotation.y += 0.002;
-    groupRef.current.rotation.x += 0.001;
+  const group = useMemo(() => new THREE.Group(), []);
+  useFrame(() => {
+    group.rotation.y += 0.002;
+    group.rotation.x += 0.001;
   });
 
   return (
-    <group ref={groupRef}>
+    <primitive object={group}>
       {words.map(([pos, word], index) => (
         <Word key={index} position={pos} children={word} />
       ))}
-    </group>
+    </primitive>
   );
 }
 
